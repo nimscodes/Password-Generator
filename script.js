@@ -90,16 +90,25 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+  //Ask the user for password length
   let userInputPassLength = prompt("What is your required password length");
+
+  // run the function again if the user's input is not a number or if it is but less than 10 or greeater than 64
   while (isNaN(userInputPassLength) || userInputPassLength < 10 || userInputPassLength > 64) {
    return getPasswordOptions();
   }
 
- 
   let isLowerCaseIncluded = confirm("Include lower case letters?");
   let isUpperCaseIncluded = confirm("Include upper case letters?");
   let isNumberIncluded = confirm("Include numbers?");
   let isSpecialCharsIncluded = confirm("Include special charaters?");
+
+  //run the function again if the user does not select any character option
+
+  if (!isLowerCaseIncluded && !isUpperCaseIncluded && !isNumberIncluded && !isSpecialCharsIncluded){
+    return getPasswordOptions();
+  }
+
 
   return {
     userInputPassLength: userInputPassLength,
@@ -107,45 +116,48 @@ function getPasswordOptions() {
     isUpperCaseIncluded: isUpperCaseIncluded,
     isNumberIncluded: isNumberIncluded,
     isSpecialCharsIncluded: isSpecialCharsIncluded,
-};
-
-
+  };
 }
 
-console.log(getPasswordOptions());
-
 // Function for getting a random element from an array
+
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-console.log(getRandom(specialCharacters));
+// console.log(getRandom(specialCharacters));
 
 
 // Function to generate password with user input
 function generatePassword() {
 
+  // store the returned object froom the generatePassword() 
   let passwordOptions = getPasswordOptions();
 
-  let possibleChars = [];
 
+  //an empty array to store the selected character arrays
+  let selectedCharsArr = [];
+
+  // check the user's character selection and concatenate correspondingly
   if (passwordOptions.isLowerCaseIncluded){
-    possibleChars = possibleChars.concat(lowerCasedCharacters);
+    selectedCharsArr = selectedCharsArr.concat(lowerCasedCharacters);
   }
   if (passwordOptions.isUpperCaseIncluded){
-    possibleChars = possibleChars.concat(upperCasedCharacters);
+    selectedCharsArr = selectedCharsArr.concat(upperCasedCharacters);
   }
   if (passwordOptions.isNumberIncluded){
-    possibleChars = possibleChars.concat(numericCharacters);
+    selectedCharsArr = selectedCharsArr.concat(numericCharacters);
   }
   if (passwordOptions.isSpecialCharsIncluded){
-    possibleChars = possibleChars.concat(specialCharacters);
+    selectedCharsArr = selectedCharsArr.concat(specialCharacters);
   }
 
+
+  // a variable to store the password 
   let password = '';
   
-
+  
   for (let i = 0; i < passwordOptions.userInputPassLength; i++) {
-    const passwordCharater = getRandom(possibleChars)
+    const passwordCharater = getRandom(selectedCharsArr);
     password += passwordCharater;
   }
 
