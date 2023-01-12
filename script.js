@@ -96,15 +96,15 @@ function getPasswordOptions() {
   }
 
  
-  let isLowercaseIncluded = confirm("Include lower case letters?");
-  let isUppercaseIncluded = confirm("Include upper case letters?");
+  let isLowerCaseIncluded = confirm("Include lower case letters?");
+  let isUpperCaseIncluded = confirm("Include upper case letters?");
   let isNumberIncluded = confirm("Include numbers?");
   let isSpecialCharsIncluded = confirm("Include special charaters?");
 
   return {
     length: userInputPassLength,
-    isLowercaseIncluded: isLowercaseIncluded,
-    isUppercaseIncluded: isUppercaseIncluded,
+    isLowerCaseIncluded: isLowerCaseIncluded,
+    isUpperCaseIncluded: isUpperCaseIncluded,
     isNumberIncluded: isNumberIncluded,
     isSpecialCharsIncluded: isSpecialCharsIncluded,
 };
@@ -116,13 +116,35 @@ console.log(getPasswordOptions());
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+console.log(getRandom(specialCharacters));
+
 
 // Function to generate password with user input
 function generatePassword() {
 
+  let passwordOptions = getPasswordOptions();
+
+  let possibleChars = [];
+
+  if (passwordOptions.isLowerCaseIncluded){
+    possibleChars = possibleChars.concat(lowerCasedCharacters);
+  }
+  if (passwordOptions.isUpperCaseIncluded){
+    possibleChars = possibleChars.concat(upperCasedCharacters);
+  }
+  if (passwordOptions.isNumberIncluded){
+    possibleChars = possibleChars.concat(numericCharacters);
+  }
+  if (passwordOptions.isSpecialCharsIncluded){
+    possibleChars = possibleChars.concat(specialCharacters);
+  }
+
+  console.log(possibleChars);
 }
+
+generatePassword()
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
