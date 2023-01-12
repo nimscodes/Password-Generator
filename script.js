@@ -102,7 +102,7 @@ function getPasswordOptions() {
   let isSpecialCharsIncluded = confirm("Include special charaters?");
 
   return {
-    length: userInputPassLength,
+    userInputPassLength: userInputPassLength,
     isLowerCaseIncluded: isLowerCaseIncluded,
     isUpperCaseIncluded: isUpperCaseIncluded,
     isNumberIncluded: isNumberIncluded,
@@ -141,10 +141,16 @@ function generatePassword() {
     possibleChars = possibleChars.concat(specialCharacters);
   }
 
-  console.log(possibleChars);
-}
+  let password = '';
+  
 
-generatePassword()
+  for (let i = 0; i < passwordOptions.userInputPassLength; i++) {
+    const passwordCharater = getRandom(possibleChars)
+    password += passwordCharater;
+  }
+
+  return password;
+}
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
